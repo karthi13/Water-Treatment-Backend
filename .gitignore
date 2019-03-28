@@ -1,0 +1,4 @@
+/venv/
+__pycache__/
+fc_backend.tar.gz
+.idea/

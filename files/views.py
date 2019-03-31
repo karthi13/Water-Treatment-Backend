@@ -9,23 +9,16 @@ from google.cloud import storage
 from .serializers import FileSerializer
 from .preprocess import preprocessFCSToCSV
 from .models import File
-from .utils import upload_blob
+from .utils import upload_blob, getAllFilesFromBucket
 
 class FileView(APIView):
 
     parser_classes = (MultiPartParser, FormParser,FileUploadParser)
 
     def get(self, request, *args, **kwargs):
-        # Initialise a client
-        storage_client = storage.Client("FlowCytometry")
-        # Create a bucket object for our bucket
-        bucket = storage_client.get_bucket('flowcytometry.appspot.com')
-        print(type(bucket))
-        blobs = bucket.list_blobs()
 
-        for blob in blobs:
-            print(blob.name)
-        return JsonResponse({'foo': 'bar'})
+        files = getAllFilesFromBucket('flowcytometry.appspot.com')
+        return JsonResponse({'files': files})
 
     def post(self, request, *args, **kwargs):
 
@@ -42,7 +35,15 @@ class FileView(APIView):
                 if hasattr(file, 'name'):
                     print(file.name)
                     data = default_storage.save('FCS/'+file.name,  ContentFile(file.read()))
-                    preprocessFCSToCSV(file_serializer.data, file.name)
+                    # preprocessFCSToCSV(file_serializer.data, file.name)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PreProcessView(APIView):
+
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+
+    def post(self, request, *args, **kwargs):
+        return True

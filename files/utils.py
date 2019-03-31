@@ -43,3 +43,14 @@ def createPreprocessedFile(filePath,filename):
         fcs_writer.file
 
 
+
+def getAllFilesFromBucket(bucketName):
+    storage_client = storage.Client("FlowCytometry")
+    bucket = storage_client.get_bucket(bucketName)
+    print(type(bucket))
+    blobs = bucket.list_blobs()
+    files = []
+    for blob in blobs:
+        files.append(blob.name)
+    return files
+

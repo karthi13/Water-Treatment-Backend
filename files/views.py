@@ -10,6 +10,7 @@ from .serializers import FileSerializer
 from .preprocess import preprocessFCSToCSV
 from .models import File
 from .utils import upload_blob, getAllFilesFromBucket
+from google.cloud import storage
 
 class FileView(APIView):
 
@@ -22,8 +23,11 @@ class FileView(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        bucket_name = 'fcsfiles'
+        # bucket_name = 'flowcytometry.appspot.com'
         files = request.data.getlist('file')
+        # client = storage.Client()
+        # bucket = client.get_bucket('flowcytometry.appspot.com')
+
         for file in files:
             print(file)
             print(type(file))
@@ -33,8 +37,10 @@ class FileView(APIView):
             file_serializer.save()
             for file in files:
                 if hasattr(file, 'name'):
-                    print(file.name)
-                    data = default_storage.save('FCS/'+file.name,  ContentFile(file.read()))
+                    print(file.name + "inside the data")
+                    # blob = bucket.blob('FCS/' + file.name)
+                    # blob.upload_from_filename(file)
+                    data = default_storage.save(file.name,  ContentFile(file.read()))
                     # preprocessFCSToCSV(file_serializer.data, file.name)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -43,7 +49,12 @@ class FileView(APIView):
 
 class PreProcessView(APIView):
 
-    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+    # parser_classes = (MultiPartParser, FormParser, FileUploadParser)
 
     def post(self, request, *args, **kwargs):
-        return True
+        print(request.data)
+        files = request.data['selectedFiles']
+        print(files)
+        for file in files:
+            preprocessFCSToCSV(file)
+        return Response({}, status=status.HTTP_201_CREATED)

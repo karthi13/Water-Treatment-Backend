@@ -6,8 +6,8 @@ import os
 from FC_Backend import settings
 from google.cloud import storage
 
-def preprocessFCSToCSV(filedata, filename):
-    print(filedata)
+def preprocessFCSToCSV(filename):
+
 
     # Initialise a client
     storage_client = storage.Client("FlowCytometry")
@@ -15,11 +15,13 @@ def preprocessFCSToCSV(filedata, filename):
     bucket = storage_client.get_bucket('flowcytometry.appspot.com')
     # Create a blob object from the filepath
     blob = bucket.blob(filename)
+
+    print(blob.name)
     # Download the file to a destination
     os.path.join(settings.BASE_DIR, 'media')
     blob.download_to_filename(settings.BASE_DIR+'/tmp.fcs')
 
-    path =  settings.BASE_DIR + '/tmp.fcs'
+    path = settings.BASE_DIR + '/tmp.fcs'
 
     meta, data = parse(path, meta_data_only=False, reformat_meta=True)
 

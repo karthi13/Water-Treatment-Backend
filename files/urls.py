@@ -9,6 +9,7 @@ from rest_framework import routers
 
 urlpatterns = [
     url(r'^upload/$', views.FileView.as_view(), name='file-upload'),
+    url(r'^preprocess/$', views.PreProcessView.as_view(), name='preprocess')
 ]
 
 # urlpatterns += router.urls

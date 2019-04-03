@@ -142,4 +142,4 @@ GS_BUCKET_NAME = 'flowcytometry.appspot.com'
 
 from google.oauth2 import service_account
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'FlowCytometry-0aecd51d6e56.json'))
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'FlowCytometry-45c3790f658e.json'))

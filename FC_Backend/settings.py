@@ -25,7 +25,10 @@ SECRET_KEY = 'n3019fv)djs!4t4_vged(suc282u0a5i$0h#u29(7c*$ab-)*8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+    'http://35.239.90.170'
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 

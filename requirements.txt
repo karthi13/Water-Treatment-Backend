@@ -18,7 +18,7 @@ google-resumable-media==0.3.2
 googleapis-common-protos==1.5.9
 idna==2.8
 Markdown==3.0.1
-numpy==1.16.2
+numpy==1.22.0
 pandas==0.24.2
 protobuf==3.7.0
 pyasn1==0.4.5
